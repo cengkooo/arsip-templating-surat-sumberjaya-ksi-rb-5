@@ -6,11 +6,13 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "amidesfahani/filament-tinyeditor": "^3.0",
         "barryvdh/laravel-dompdf": "^3.1",
         "filament/filament": "3.2.115",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
-        "maatwebsite/excel": "^3.1"
+        "maatwebsite/excel": "^3.1",
+        "mohamedsabil83/filament-forms-tinyeditor": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

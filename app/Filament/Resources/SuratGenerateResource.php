@@ -101,6 +101,30 @@ class SuratGenerateResource extends Resource
                             ->columnSpanFull(),
                     ]),
                 
+                Forms\Components\Section::make('Penandatangan Surat')
+                    ->description('Data penandatangan untuk footer surat. Variable yang tersedia: {{penandatangan}}, {{jabatan}}, {{nip}}')
+                    ->schema([
+                        Forms\Components\TextInput::make('nama_penandatangan')
+                            ->label('Nama Penandatangan')
+                            ->maxLength(255)
+                            ->placeholder('Contoh: John Doe')
+                            ->helperText('Variable: {{penandatangan}}'),
+                        
+                        Forms\Components\TextInput::make('jabatan_penandatangan')
+                            ->label('Jabatan')
+                            ->maxLength(255)
+                            ->placeholder('Contoh: Kepala Desa')
+                            ->helperText('Variable: {{jabatan}}'),
+                        
+                        Forms\Components\TextInput::make('nip_penandatangan')
+                            ->label('NIP')
+                            ->maxLength(255)
+                            ->placeholder('Contoh: 197001011990031001')
+                            ->helperText('Variable: {{nip}}'),
+                    ])
+                    ->columns(3)
+                    ->collapsible(),
+                
                 Forms\Components\Hidden::make('user_id')
                     ->default(Auth::id()),
             ]);

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class SuratGenerate extends Model
 {
@@ -20,6 +21,9 @@ class SuratGenerate extends Model
         'file_pdf_path',
         'status',
         'catatan',
+        'nama_penandatangan',
+        'jabatan_penandatangan',
+        'nip_penandatangan',
         'generated_at',
     ];
 
@@ -43,6 +47,15 @@ class SuratGenerate extends Model
     // Helper: Get PDF URL
     public function getPdfUrlAttribute()
     {
-        return $this->file_pdf_path ? asset('storage/' . $this->file_pdf_path) : null;
+        if (!$this->file_pdf_path) {
+            return null;
+        }
+        
+        // Cek apakah file ada
+        if (Storage::disk('public')->exists($this->file_pdf_path)) {
+            return url('storage/' . $this->file_pdf_path);
+        }
+        
+        return null;
     }
 }
