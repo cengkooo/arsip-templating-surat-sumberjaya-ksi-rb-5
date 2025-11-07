@@ -15,7 +15,7 @@
             {!! $getRecord()->content_body !!}
         </div>
         <p style="margin-top: 0.5rem; font-size: 0.75rem; color: #6b7280;">
-            💡 <strong>Tips:</strong> Variable seperti <code style="background: #fef3c7; padding: 0.125rem 0.25rem; border-radius: 0.25rem;">{{'{{'}}nama{{'}}'}}</code> akan diganti dengan data asli saat generate surat.
+            💡 <strong>Tips:</strong> Variable akan diganti dengan data asli saat generate surat.
         </p>
     </div>
     @endif

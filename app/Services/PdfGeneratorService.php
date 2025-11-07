@@ -14,10 +14,12 @@ class PdfGeneratorService
         $template = $suratGenerate->templateSurat;
         $desaSetting = DesaSetting::getActive();
         
-        // Merge data variables dengan data penandatangan
+        // Merge data variables dengan data penandatangan dan data surat
         $allVariables = array_merge(
             $suratGenerate->data_variables ?? [],
             [
+                'nomor_surat' => $suratGenerate->nomor_surat,
+                'tanggal_surat' => $suratGenerate->tanggal_surat->isoFormat('D MMMM YYYY'),
                 'penandatangan' => $suratGenerate->nama_penandatangan ?? '',
                 'jabatan' => $suratGenerate->jabatan_penandatangan ?? '',
                 'nip' => $suratGenerate->nip_penandatangan ?? '',

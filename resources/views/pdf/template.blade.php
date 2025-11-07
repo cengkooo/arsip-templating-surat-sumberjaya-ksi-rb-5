@@ -19,50 +19,60 @@
         }
         
         .page-content {
-            padding: {{ $template->margin_atas ?? 0.63 }}cm {{ $template->margin_kanan ?? 1.78 }}cm {{ $template->margin_bawah ?? 1.37 }}cm {{ $template->margin_kiri ?? 1.78 }}cm;
+            padding: {{ $template->margin_atas ?? 1.5 }}cm {{ $template->margin_kanan ?? 2 }}cm {{ $template->margin_bawah ?? 1.5 }}cm {{ $template->margin_kiri ?? 2 }}cm;
         }
         
         /* KOP SURAT STYLES */
         .kop-surat {
             text-align: center;
             margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid #000;
+            padding-bottom: 10px;
+            border-bottom: 4px solid #000;
             position: relative;
+            min-height: 100px;
         }
         
         .kop-surat .logo {
-            width: 80px;
-            height: 80px;
+            width: 110px;
+            height: 110px;
             position: absolute;
-            left: 0;
-            top: 0;
+            left: 10px;
+            top: 25px;
         }
         
         .kop-surat .identitas {
-            padding: 0 100px;
+            padding: 5px 120px;
+            text-align: center;
         }
         
         .kop-surat .nama-pemerintahan {
-            font-size: 16pt;
+            font-size: 18pt;
             font-weight: bold;
             margin: 0;
             padding: 0;
-            line-height: 1.3;
+            line-height: 1.4;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .kop-surat .nama-pemerintahan div {
+            margin: 0;
+            padding: 0;
         }
         
         .kop-surat .alamat {
-            font-size: 10pt;
-            margin: 5px 0 0 0;
+            font-size: 11pt;
+            margin: 8px 0 0 0;
             padding: 0;
-            line-height: 1.4;
+            line-height: 1.3;
+            font-style: italic;
         }
         
         .kop-surat .kontak {
-            font-size: 9pt;
-            margin: 3px 0 0 0;
+            font-size: 10pt;
+            margin: 5px 0 0 0;
             padding: 0;
+            line-height: 1.2;
         }
         
         /* HEADER TAMBAHAN */
@@ -156,30 +166,38 @@
         @if($desaSetting && $template->tampilkan_header && $template->header_type !== 'tidak')
         <div class="kop-surat">
             @if($desaSetting->logo_path && $template->tampilkan_logo)
-            <img src="{{ public_path('storage/' . $desaSetting->logo_path) }}" alt="Logo" class="logo">
+                @php
+                    $logoPath = storage_path('app/public/' . $desaSetting->logo_path);
+                    if (file_exists($logoPath)) {
+                        $imageData = base64_encode(file_get_contents($logoPath));
+                        $mimeType = mime_content_type($logoPath);
+                        $logoBase64 = "data:{$mimeType};base64,{$imageData}";
+                    }
+                @endphp
+                @if(isset($logoBase64))
+                <img src="{{ $logoBase64 }}" alt="Logo" class="logo">
+                @endif
             @endif
             
             <div class="identitas">
                 <div class="nama-pemerintahan">
                     @if($desaSetting->nama_kabupaten)
-                    <div>{{ $desaSetting->nama_kabupaten }}</div>
+                    <div>{{ strtoupper($desaSetting->nama_kabupaten) }}</div>
                     @endif
                     @if($desaSetting->nama_kecamatan)
-                    <div>{{ $desaSetting->nama_kecamatan }}</div>
+                    <div>{{ strtoupper($desaSetting->nama_kecamatan) }}</div>
                     @endif
                     @if($desaSetting->nama_desa)
-                    <div>{{ $desaSetting->nama_desa }}</div>
+                    <div>{{ strtoupper($desaSetting->nama_desa) }}</div>
                     @endif
                 </div>
                 
-                @if($desaSetting->alamat_lengkap || $desaSetting->kode_pos)
+                @if($desaSetting->alamat_lengkap)
                 <div class="alamat">
-                    <em>
-                        {{ $desaSetting->alamat_lengkap }}
-                        @if($desaSetting->kode_pos)
-                        Kode Pos {{ $desaSetting->kode_pos }}
-                        @endif
-                    </em>
+                    {{ $desaSetting->alamat_lengkap }}
+                    @if($desaSetting->kode_pos)
+                     Kode Pos {{ $desaSetting->kode_pos }}
+                    @endif
                 </div>
                 @endif
                 
@@ -188,11 +206,17 @@
                     @if($desaSetting->no_telepon)
                     Telp: {{ $desaSetting->no_telepon }}
                     @endif
+                    @if($desaSetting->email && $desaSetting->no_telepon)
+                     | 
+                    @endif
                     @if($desaSetting->email)
-                    | Email: {{ $desaSetting->email }}
+                    Email: {{ $desaSetting->email }}
+                    @endif
+                    @if($desaSetting->website && ($desaSetting->email || $desaSetting->no_telepon))
+                     | 
                     @endif
                     @if($desaSetting->website)
-                    | Website: {{ $desaSetting->website }}
+                    Website: {{ $desaSetting->website }}
                     @endif
                 </div>
                 @endif

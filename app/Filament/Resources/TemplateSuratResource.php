@@ -9,7 +9,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 
 class TemplateSuratResource extends Resource
 {
@@ -102,8 +101,8 @@ class TemplateSuratResource extends Resource
                                         Forms\Components\TextInput::make('margin_kiri')
                                             ->numeric()
                                             ->suffix('cm')
-                                            ->default(1.78)
-                                            ->step(0.01)
+                                            ->default(2)
+                                            ->step(0.1)
                                             ->minValue(0)
                                             ->maxValue(10)
                                             ->label('Kiri'),
@@ -111,8 +110,8 @@ class TemplateSuratResource extends Resource
                                         Forms\Components\TextInput::make('margin_kanan')
                                             ->numeric()
                                             ->suffix('cm')
-                                            ->default(1.78)
-                                            ->step(0.01)
+                                            ->default(2)
+                                            ->step(0.1)
                                             ->minValue(0)
                                             ->maxValue(10)
                                             ->label('Kanan'),
@@ -120,8 +119,8 @@ class TemplateSuratResource extends Resource
                                         Forms\Components\TextInput::make('margin_atas')
                                             ->numeric()
                                             ->suffix('cm')
-                                            ->default(0.63)
-                                            ->step(0.01)
+                                            ->default(1.5)
+                                            ->step(0.1)
                                             ->minValue(0)
                                             ->maxValue(10)
                                             ->label('Atas'),
@@ -129,8 +128,8 @@ class TemplateSuratResource extends Resource
                                         Forms\Components\TextInput::make('margin_bawah')
                                             ->numeric()
                                             ->suffix('cm')
-                                            ->default(1.37)
-                                            ->step(0.01)
+                                            ->default(1.5)
+                                            ->step(0.1)
                                             ->minValue(0)
                                             ->maxValue(10)
                                             ->label('Bawah'),
@@ -178,45 +177,174 @@ class TemplateSuratResource extends Resource
                             ->icon('heroicon-o-document')
                             ->schema([
                                 Forms\Components\Section::make('Header (Kop Surat)')
-                                    ->description('Bagian atas surat: logo, nama instansi, alamat, dll')
+                                    ->description('⚠️ KOSONGKAN! Kop surat otomatis dari Pengaturan Desa (logo + nama instansi + alamat)')
                                     ->schema([
-                                        TinyEditor::make('content_header')
-                                            ->label('')
-                                            ->profile('full')
+                                        Forms\Components\Placeholder::make('header_info')
+                                            ->label('Contoh Tampilan Header Otomatis')
+                                            ->content(function () {
+                                                return new \Illuminate\Support\HtmlString('
+                                                    <div style="border: 1px dashed #666; padding: 15px; background: #f9f9f9; border-radius: 5px;">
+                                                        <div style="text-align: center;">
+                                                            <strong>[LOGO GARUDA]</strong><br>
+                                                            <strong>KABUPATEN LAMPUNG SELATAN</strong><br>
+                                                            <strong>KECAMATAN KALIANDA</strong><br>
+                                                            <strong>DESA SUMBERJAYA</strong><br>
+                                                            <em>Jl. Way Urang No. 123 Sumberjaya Kode Pos 35551</em><br>
+                                                            <small>Telp: 0727-123456 | Email: desa.sumberjaya@lampungselatan.go.id</small>
+                                                        </div>
+                                                        <hr style="border-top: 3px solid #000; margin-top: 10px;">
+                                                    </div>
+                                                    <p style="margin-top: 10px; color: #666; font-size: 12px;">
+                                                        💡 <strong>Tips:</strong> Kosongkan field ini KECUALI jika butuh info tambahan seperti:<br>
+                                                        • Nomor: {{nomor_surat}}<br>
+                                                        • Lampiran: {{lampiran}}<br>
+                                                        • Perihal: {{perihal}}
+                                                    </p>
+                                                ');
+                                            })
+                                            ->columnSpanFull(),
+                                        
+                                        Forms\Components\RichEditor::make('content_header')
+                                            ->label('Header Tambahan (Optional)')
                                             ->columnSpanFull()
-                                            ->minHeight(300)
-                                            ->toolbarSticky(true)
-                                            ->showMenuBar(),
+                                            ->placeholder('Kosongkan jika tidak perlu header tambahan')
+                                            ->toolbarButtons([
+                                                'bold',
+                                                'italic',
+                                                'underline',
+                                                'strike',
+                                                'alignLeft',
+                                                'alignCenter',
+                                                'alignRight',
+                                                'alignJustify',
+                                                'bulletList',
+                                                'orderedList',
+                                                'table',
+                                            ])
+                                            ->required(false),
                                     ])
-                                    ->collapsible(),
+                                    ->collapsible()
+                                    ->collapsed(false),
                                 
                                 Forms\Components\Section::make('Isi Surat')
-                                    ->description('Konten utama surat. Gunakan {{variable}} untuk placeholder dinamis')
+                                    ->description('📝 Konten utama surat dengan data yang akan diganti otomatis')
                                     ->schema([
-                                        TinyEditor::make('content_body')
-                                            ->label('')
+                                        Forms\Components\Placeholder::make('body_example')
+                                            ->label('Contoh Template Isi Surat')
+                                            ->content(function () {
+                                                return new \Illuminate\Support\HtmlString('
+                                                    <div style="border: 1px dashed #059669; padding: 15px; background: #f0fdf4; border-radius: 5px; font-family: \'Times New Roman\';">
+                                                        <p style="text-align: center; margin: 0;"><strong><u>SURAT KETERANGAN TIDAK MAMPU</u></strong></p>
+                                                        <p style="text-align: center; margin: 0 0 20px 0;">Nomor: {{nomor_surat}}</p>
+                                                        
+                                                        <p style="text-align: justify; text-indent: 50px;">
+                                                            Yang bertanda tangan di bawah ini Kepala Desa Sumberjaya Kecamatan Kalianda 
+                                                            Kabupaten Lampung Selatan menerangkan bahwa:
+                                                        </p>
+                                                        
+                                                        <table style="margin-left: 50px; margin-bottom: 15px;">
+                                                            <tr><td width="200">Nama</td><td>: <strong>{{nama}}</strong></td></tr>
+                                                            <tr><td>Tempat Tanggal Lahir</td><td>: {{tempat_lahir}}, {{tanggal_lahir}}</td></tr>
+                                                            <tr><td>NIK</td><td>: {{nik}}</td></tr>
+                                                            <tr><td>Jenis Kelamin</td><td>: {{jenis_kelamin}}</td></tr>
+                                                            <tr><td>Agama</td><td>: {{agama}}</td></tr>
+                                                            <tr><td>Pekerjaan</td><td>: {{pekerjaan}}</td></tr>
+                                                            <tr><td>Alamat</td><td>: {{alamat}}</td></tr>
+                                                        </table>
+                                                        
+                                                        <p style="text-align: justify; text-indent: 50px;">
+                                                            Bahwa nama yang tercantum diatas adalah benar-benar berdomisili di Desa Sumberjaya, 
+                                                            Kecamatan Kalianda. Sepanjang pengamatan kami dan sesuai data yang ada dalam catatan 
+                                                            kependudukan orang tersebut diatas benar tergolong dalam keluarga prasejahtera (Keluarga 
+                                                            Berpenghasilan Rendah). Surat Keterangan ini diberikan untuk mendapatkan bantuan berupa 
+                                                            rehab/perbaikan rumah tempat tinggal.
+                                                        </p>
+                                                        
+                                                        <p style="text-align: justify; text-indent: 50px;">
+                                                            Demikian surat keterangan ini dibuat dengan sebenarnya dan diberikan kepada yang 
+                                                            bersangkutan untuk dapat dipergunakan sebagaimana mestinya.
+                                                        </p>
+                                                    </div>
+                                                    <p style="margin-top: 10px; color: #059669; font-size: 12px;">
+                                                        ✅ <strong>Variable yang digunakan:</strong> nama, tempat_lahir, tanggal_lahir, nik, jenis_kelamin, agama, pekerjaan, alamat, nomor_surat
+                                                    </p>
+                                                ');
+                                            })
+                                            ->columnSpanFull(),
+                                        
+                                        Forms\Components\RichEditor::make('content_body')
+                                            ->label('Tulis Template Isi Surat')
                                             ->required()
-                                            ->profile('full')
                                             ->columnSpanFull()
-                                            ->minHeight(500)
-                                            ->toolbarSticky(true)
-                                            ->showMenuBar()
-                                            ->helperText('Contoh variable: {{nama}}, {{nip}}, {{alamat}}, {{tanggal_lahir}}, dll'),
+                                            ->placeholder('Klik di sini untuk mulai menulis template surat...')
+                                            ->helperText('💡 Gunakan {{nama_variable}} untuk data dinamis. Lihat tab "Form Isian" untuk daftar variable yang tersedia.')
+                                            ->toolbarButtons([
+                                                'bold',
+                                                'italic',
+                                                'underline',
+                                                'strike',
+                                                'alignLeft',
+                                                'alignCenter',
+                                                'alignRight',
+                                                'alignJustify',
+                                                'bulletList',
+                                                'orderedList',
+                                                'h2',
+                                                'h3',
+                                                'table',
+                                                'blockquote',
+                                            ]),
                                     ])
-                                    ->collapsible(),
+                                    ->collapsible()
+                                    ->collapsed(false),
                                 
                                 Forms\Components\Section::make('Footer (Tanda Tangan)')
-                                    ->description('Bagian bawah surat: tanda tangan, nama pejabat, cap, dll')
+                                    ->description('✍️ Bagian tanda tangan dan nama pejabat')
                                     ->schema([
-                                        TinyEditor::make('content_footer')
-                                            ->label('')
-                                            ->profile('full')
+                                        Forms\Components\Placeholder::make('footer_example')
+                                            ->label('Contoh Template Footer')
+                                            ->content(function () {
+                                                return new \Illuminate\Support\HtmlString('
+                                                    <div style="border: 1px dashed #dc2626; padding: 15px; background: #fef2f2; border-radius: 5px; font-family: \'Times New Roman\';">
+                                                        <div style="text-align: right; margin-top: 30px;">
+                                                            <p style="margin: 0;">Sumberjaya, {{tanggal_surat}}</p>
+                                                            <p style="margin: 5px 0;"><strong>{{jabatan}}</strong></p>
+                                                            <br><br><br>
+                                                            <p style="margin: 0;"><strong><u>{{penandatangan}}</u></strong></p>
+                                                            <p style="margin: 0;">NIP: {{nip}}</p>
+                                                        </div>
+                                                    </div>
+                                                    <p style="margin-top: 10px; color: #dc2626; font-size: 12px;">
+                                                        ✅ <strong>Variable khusus footer:</strong><br>
+                                                        • <strong>{{penandatangan}}</strong> = Nama pejabat penandatangan<br>
+                                                        • <strong>{{jabatan}}</strong> = Jabatan pejabat (contoh: Kepala Desa, Sekretaris Desa)<br>
+                                                        • <strong>{{nip}}</strong> = NIP pejabat<br>
+                                                        • <strong>{{tanggal_surat}}</strong> = Tanggal surat ditandatangani<br>
+                                                        <br>
+                                                        💡 Data ini akan diisi saat Generate Surat (bisa berbeda tiap surat)
+                                                    </p>
+                                                ');
+                                            })
+                                            ->columnSpanFull(),
+                                        
+                                        Forms\Components\RichEditor::make('content_footer')
+                                            ->label('Tulis Template Footer')
                                             ->columnSpanFull()
-                                            ->minHeight(300)
-                                            ->toolbarSticky(true)
-                                            ->showMenuBar(),
+                                            ->placeholder('Klik di sini untuk menulis template footer...')
+                                            ->helperText('💡 Variable: {{penandatangan}}, {{jabatan}}, {{nip}}, {{tanggal_surat}}')
+                                            ->toolbarButtons([
+                                                'bold',
+                                                'italic',
+                                                'underline',
+                                                'alignLeft',
+                                                'alignCenter',
+                                                'alignRight',
+                                                'table',
+                                            ])
+                                            ->required(false),
                                     ])
-                                    ->collapsible(),
+                                    ->collapsible()
+                                    ->collapsed(false),
                             ]),
                         
                         // Tab 3: Form Isian
