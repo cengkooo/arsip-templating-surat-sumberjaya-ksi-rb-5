@@ -101,10 +101,23 @@ class CreateFromTemplate extends CreateRecord
                         
                         $fields = [];
                         foreach ($template->variables as $variable) {
-                            $fields[] = Forms\Components\TextInput::make("variables.{$variable}")
-                                ->label(ucfirst(str_replace('_', ' ', $variable)))
-                                ->placeholder("Isi {$variable}")
-                                ->helperText("Akan mengganti {{" . $variable . "}} di template");
+                            // Special handling untuk jenis_kelamin
+                            if ($variable === 'jenis_kelamin') {
+                                $fields[] = Forms\Components\Select::make("variables.{$variable}")
+                                    ->label('Jenis Kelamin')
+                                    ->options([
+                                        'Pria' => 'Pria',
+                                        'Wanita' => 'Wanita',
+                                    ])
+                                    ->native(false)
+                                    ->required()
+                                    ->helperText("Akan mengganti {{" . $variable . "}} di template");
+                            } else {
+                                $fields[] = Forms\Components\TextInput::make("variables.{$variable}")
+                                    ->label(ucfirst(str_replace('_', ' ', $variable)))
+                                    ->placeholder("Isi {$variable}")
+                                    ->helperText("Akan mengganti {{" . $variable . "}} di template");
+                            }
                         }
                         
                         return $fields;
