@@ -91,6 +91,7 @@ class ArsipSuratResource extends Resource
                                 'draft' => 'Draft',
                                 'terkirim' => 'Terkirim',
                                 'diarsipkan' => 'Diarsipkan',
+                                'selesai' => 'Selesai',
                             ])
                             ->required()
                             ->native(false)
@@ -158,6 +159,8 @@ class ArsipSuratResource extends Resource
                         'draft' => 'gray',
                         'terkirim' => 'success',
                         'diarsipkan' => 'info',
+                        'selesai' => 'success',
+                        default => 'gray',
                     })
                     ->formatStateUsing(fn (string $state): string => ucfirst($state)),
                 
@@ -188,6 +191,7 @@ class ArsipSuratResource extends Resource
                         'draft' => 'Draft',
                         'terkirim' => 'Terkirim',
                         'diarsipkan' => 'Diarsipkan',
+                        'selesai' => 'Selesai',
                     ]),
                 
                 Tables\Filters\Filter::make('tanggal_surat')
@@ -225,6 +229,7 @@ class ArsipSuratResource extends Resource
         return [
             'index' => Pages\ListArsipSurats::route('/'),
             'create' => Pages\CreateArsipSurat::route('/create'),
+            'create-from-template' => Pages\CreateFromTemplate::route('/create-from-template'),
             'edit' => Pages\EditArsipSurat::route('/{record}/edit'),
             'view' => Pages\ViewArsipSurat::route('/{record}'),
         ];

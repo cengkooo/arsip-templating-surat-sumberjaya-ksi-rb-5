@@ -27,8 +27,9 @@ class ViewTemplateSurat extends ViewRecord
                 ->label('Gunakan Template')
                 ->icon('heroicon-o-document-plus')
                 ->color('success')
-                ->url(fn ($record) => route('filament.admin.resources.surat-generates.create', ['template' => $record->id]))
-                ->visible(fn ($record) => $record->is_active),
+                ->url(fn ($record) => route('filament.admin.resources.arsip-surats.create-from-template', ['template' => $record->id]))
+                ->visible(fn ($record) => $record->is_active)
+                ->tooltip('Buat surat baru menggunakan template ini'),
         ];
     }
 

@@ -1,11 +1,232 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📁 Sistem Arsip & Templating Surat - Desa Sumberjaya
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+> **Sistem manajemen surat desa dengan fitur templating otomatis dan generate PDF dengan kop surat profesional**
+
+[![Laravel](https://img.shields.io/badge/Laravel-11.46-red.svg)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-8.3-blue.svg)](https://php.net)
+[![Filament](https://img.shields.io/badge/Filament-3.2-orange.svg)](https://filamentphp.com)
+
+---
+
+## 🎯 Fitur Utama
+
+### 📝 Arsip Surat (Unified)
+- **Buat Surat dari Template** → Auto generate PDF dengan kop surat
+- **Input Manual** → Upload surat existing/scan dokumen
+- Kategori surat (Masuk/Keluar)
+- Status tracking (Draft, Terkirim, Diarsipkan, Selesai)
+- Download & Print PDF
+
+### 📄 Template Surat
+- Template builder dengan Rich Text Editor
+- Variable system untuk data dinamis
+- Pengaturan margin & layout
+- Kop surat otomatis dari Pengaturan Desa
+- Preview template real-time
+
+### ⚙️ Pengaturan Desa
+- Data lengkap desa/kecamatan/kabupaten/provinsi
+- Upload logo desa untuk kop surat
+- Informasi kontak & alamat
+- Data pejabat penandatangan default
+- 30+ variable tersedia untuk template
+
+### 📊 Kategori Surat
+- Manajemen kategori surat
+- Warna badge custom per kategori
+- Tracking jumlah surat per kategori
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- PHP 8.3+
+- Composer
+- MySQL/MariaDB
+- Node.js & NPM
+
+### Installation
+
+```bash
+# Clone repository
+git clone https://github.com/cengkooo/arsip-templating-surat-sumberjaya-ksi-rb-5.git
+cd arsip-templating-surat-sumberjaya-ksi-rb-5
+
+# Install dependencies
+composer install
+npm install
+
+# Setup environment
+cp .env.example .env
+php artisan key:generate
+
+# Database setup
+php artisan migrate --seed
+
+# Link storage
+php artisan storage:link
+
+# Run development server
+php artisan serve
+npm run dev
+```
+
+### Default Login
+```
+Email: admindesa@sumberjaya.com
+Password: password
+```
+
+---
+
+## 📚 Dokumentasi
+
+- [📖 PANDUAN-ARSIP-SURAT.md](PANDUAN-ARSIP-SURAT.md) - Panduan lengkap penggunaan Arsip Surat
+- [📖 PANDUAN-PENGATURAN-DESA.md](PANDUAN-PENGATURAN-DESA.md) - Setup Pengaturan Desa
+- [📖 PANDUAN-UPLOAD-LOGO.md](PANDUAN-UPLOAD-LOGO.md) - Cara upload logo kop surat
+- [🔄 MIGRASI-DATA-GENERATE-SURAT.md](MIGRASI-DATA-GENERATE-SURAT.md) - Panduan migrasi data lama
+
+---
+
+## 🎨 Workflow Generate Surat
+
+```
+1. Setup Pengaturan Desa
+   ↓
+2. Buat Template Surat (dengan variable)
+   ↓
+3. Buat Surat dari Template
+   ↓
+4. Isi Form Dinamis
+   ↓
+5. Generate PDF Otomatis ✅
+   ↓
+6. Tersimpan di Arsip Surat
+```
+
+---
+
+## 🔧 Tech Stack
+
+### Backend
+- **Laravel 11.46** - PHP Framework
+- **Filament 3.2** - Admin Panel
+- **DomPDF** - PDF Generator
+- **MySQL** - Database
+
+### Frontend
+- **Alpine.js** - Reactive framework (via Filament)
+- **TailwindCSS** - Styling (via Filament)
+- **Livewire** - Dynamic UI
+
+### Packages
+- `filament/filament` - Admin panel builder
+- `barryvdh/laravel-dompdf` - PDF generation
+- `mohamedsabil83/filament-forms-tinyeditor` - Rich text editor
+- `spatie/laravel-backup` - Backup management
+
+---
+
+## 📁 Struktur Database
+
+### Tabel Utama
+- `users` - User management
+- `kategoris` - Kategori surat
+- `template_surats` - Template surat
+- `arsip_surats` - Arsip surat (unified generate + arsip)
+- `desa_settings` - Pengaturan desa (singleton)
+
+### Relasi
+```
+arsip_surats
+  ├── belongsTo → kategoris
+  ├── belongsTo → template_surats
+  └── belongsTo → users
+
+template_surats
+  └── belongsTo → kategoris
+
+desa_settings (singleton)
+```
+
+---
+
+## 🎯 Menu Sistem
+
+### Master Data
+- **Kategori Surat** - Manajemen kategori
+- **Template Surat** - Template builder
+- **Pengaturan Desa** - Setup desa
+
+### Surat
+- **Arsip Surat** - Generate & arsip (unified)
+  - 🟢 Buat Surat dari Template
+  - ⚪ Tambah Surat Manual
+
+### Manajemen
+- **Pengguna** - User management
+
+---
+
+## ⚠️ Perubahan Sistem
+
+### ❌ Deprecated
+- **Menu Generate Surat** - Sudah digabung ke Arsip Surat
+- Tidak bisa generate PDF dari menu lama
+- Data lama tetap ada, bisa dimigrate
+
+### ✅ Sistem Baru
+- **Arsip Surat** dengan 2 fitur:
+  1. Generate dari template (auto PDF)
+  2. Input manual (upload file)
+- Workflow lebih simple dan unified
+
+Lihat [MIGRASI-DATA-GENERATE-SURAT.md](MIGRASI-DATA-GENERATE-SURAT.md) untuk detail.
+
+---
+
+## 🐛 Troubleshooting
+
+### Logo tidak muncul di PDF
+Lihat [FIX-LOGO-TIDAK-MUNCUL.md](FIX-LOGO-TIDAK-MUNCUL.md)
+
+### PDF gagal generate
+1. Cek `storage/logs/laravel.log`
+2. Pastikan Pengaturan Desa sudah terisi
+3. Pastikan template sudah aktif
+4. Gunakan tombol "Generate Ulang PDF"
+
+### Error 500 saat upload
+1. Cek permission folder `storage/`
+2. Jalankan `php artisan storage:link`
+3. Cek max upload size di `php.ini`
+
+---
+
+## 📞 Support
+
+Untuk bantuan lebih lanjut:
+- Baca dokumentasi di folder root
+- Cek file PANDUAN-*.md
+- Review code comments
+
+---
+
+## 📄 License
+
+This project is proprietary software for Desa Sumberjaya.
+
+---
+
+## 👥 Credits
+
+**Developer:** KSI Rekayasa Bangun  
+**Client:** Desa Sumberjaya  
+**Framework:** Laravel by Taylor Otwell  
+**Admin Panel:** Filament by Dan Harrin
+
+---
 
 ## About Laravel
 

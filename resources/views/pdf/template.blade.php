@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Surat - {{ $suratGenerate->nomor_surat }}</title>
+    <title>Surat - {{ $arsipSurat->nomor_surat }}</title>
     <style>
         @page {
             margin: 0;

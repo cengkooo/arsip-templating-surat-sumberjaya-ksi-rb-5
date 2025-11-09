@@ -2,16 +2,16 @@
 
 namespace App\Services;
 
-use App\Models\SuratGenerate;
+use App\Models\ArsipSurat;
 use App\Models\DesaSetting;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
 
 class PdfGeneratorService
 {
-    public function generate(SuratGenerate $suratGenerate)
+    public function generate(ArsipSurat $arsipSurat)
     {
-        $template = $suratGenerate->templateSurat;
+        $template = $arsipSurat->templateSurat;
         $desaSetting = DesaSetting::getActive();
         
         // Merge SEMUA data: desa settings + data variables + data penandatangan + data surat
@@ -20,15 +20,15 @@ class PdfGeneratorService
             $desaSetting ? $desaSetting->getTemplateVariables() : [],
             
             // 2. Variable dari form isian
-            $suratGenerate->data_variables ?? [],
+            $arsipSurat->data_variables ?? [],
             
-            // 3. Variable dari Generate Surat (nomor, tanggal, penandatangan)
+            // 3. Variable dari Arsip Surat (nomor, tanggal, penandatangan)
             [
-                'nomor_surat' => $suratGenerate->nomor_surat,
-                'tanggal_surat' => $suratGenerate->tanggal_surat->isoFormat('D MMMM YYYY'),
-                'penandatangan' => $suratGenerate->nama_penandatangan ?? $desaSetting?->nama_pamong_ttd ?? '',
-                'jabatan' => $suratGenerate->jabatan_penandatangan ?? $desaSetting?->jabatan_pamong_ttd ?? '',
-                'nip' => $suratGenerate->nip_penandatangan ?? $desaSetting?->nip_pamong_ttd ?? '',
+                'nomor_surat' => $arsipSurat->nomor_surat,
+                'tanggal_surat' => $arsipSurat->tanggal_surat->isoFormat('D MMMM YYYY'),
+                'penandatangan' => $arsipSurat->nama_penandatangan ?? $desaSetting?->nama_pamong_ttd ?? '',
+                'jabatan' => $arsipSurat->jabatan_penandatangan ?? $desaSetting?->jabatan_pamong_ttd ?? '',
+                'nip' => $arsipSurat->nip_penandatangan ?? $desaSetting?->nip_pamong_ttd ?? '',
             ]
         );
         
@@ -51,12 +51,12 @@ class PdfGeneratorService
             'footer' => $contentFooter,
         ];
         
-        $suratGenerate->update([
-            'content_final' => json_encode($finalContent),
+        $arsipSurat->update([
+            'content_final' => $finalContent,
             'generated_at' => now(),
         ]);
         
-        $htmlContent = $this->buildHtml($finalContent, $template, $desaSetting, $suratGenerate);
+        $htmlContent = $this->buildHtml($finalContent, $template, $desaSetting, $arsipSurat);
         
         $pdf = Pdf::loadHTML($htmlContent)
             ->setPaper($template->ukuran_kertas, $template->orientasi)
@@ -66,21 +66,22 @@ class PdfGeneratorService
             ->setOption('margin-left', $template->margin_kiri . 'cm')
             ->setOption('enable-local-file-access', true);
         
-        $cleanNomor = preg_replace('/[^A-Za-z0-9\-]/', '-', $suratGenerate->nomor_surat);
+        $cleanNomor = preg_replace('/[^A-Za-z0-9\-]/', '-', $arsipSurat->nomor_surat);
         $filename = 'surat-' . $cleanNomor . '-' . time() . '.pdf';
-        $path = 'surat-generate/' . $filename;
+        $path = 'surat-arsip/' . $filename;
         
-        Storage::disk('public')->makeDirectory('surat-generate');
+        Storage::disk('public')->makeDirectory('surat-arsip');
         Storage::disk('public')->put($path, $pdf->output());
         
-        $suratGenerate->update([
-            'file_pdf_path' => $path,
-            'status' => 'final',
+        $arsipSurat->update([
+            'file_path' => $path,
+            'status' => 'selesai',
+            'jenis' => 'keluar',
         ]);
         
         $template->incrementUsage();
         
-        return $suratGenerate->fresh();
+        return $arsipSurat->fresh();
     }
     
     private function replaceVariables(string $content, array $variables): string
@@ -91,13 +92,13 @@ class PdfGeneratorService
         return $content;
     }
     
-    private function buildHtml(array $content, $template, $desaSetting, $suratGenerate): string
+    private function buildHtml(array $content, $template, $desaSetting, $arsipSurat): string
     {
         return view('pdf.template', [
             'content' => $content,
             'template' => $template,
             'desaSetting' => $desaSetting,
-            'suratGenerate' => $suratGenerate,
+            'arsipSurat' => $arsipSurat,
         ])->render();
     }
 }

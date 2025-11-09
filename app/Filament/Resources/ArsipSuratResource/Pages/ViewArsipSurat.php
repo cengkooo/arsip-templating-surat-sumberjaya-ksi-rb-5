@@ -8,6 +8,8 @@ use Filament\Resources\Pages\ViewRecord;
 use Filament\Infolists\Infolist;
 use Filament\Infolists\Components;
 use Illuminate\Support\Str;
+use App\Services\PdfGeneratorService;
+use Filament\Notifications\Notification;
 
 class ViewArsipSurat extends ViewRecord
 {
@@ -16,6 +18,37 @@ class ViewArsipSurat extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
+            Actions\Action::make('regenerate_pdf')
+                ->label('Generate Ulang PDF')
+                ->icon('heroicon-o-arrow-path')
+                ->color('primary')
+                ->requiresConfirmation()
+                ->modalHeading('Generate Ulang PDF?')
+                ->modalDescription('PDF akan dibuat ulang dari template. File PDF lama akan ditimpa.')
+                ->modalSubmitActionLabel('Ya, Generate Ulang')
+                ->visible(fn ($record) => $record->template_surat_id !== null)
+                ->action(function ($record) {
+                    try {
+                        $pdfService = app(PdfGeneratorService::class);
+                        $pdfService->generate($record);
+                        
+                        Notification::make()
+                            ->title('PDF Berhasil Dibuat Ulang!')
+                            ->success()
+                            ->send();
+                            
+                        $this->refreshFormData([
+                            'file_path',
+                        ]);
+                    } catch (\Exception $e) {
+                        Notification::make()
+                            ->title('Gagal Generate PDF')
+                            ->body($e->getMessage())
+                            ->danger()
+                            ->send();
+                    }
+                }),
+            
             Actions\EditAction::make()
                 ->icon('heroicon-o-pencil')
                 ->color('warning'),
@@ -76,6 +109,8 @@ class ViewArsipSurat extends ViewRecord
                                 'draft' => 'gray',
                                 'terkirim' => 'success',
                                 'diarsipkan' => 'info',
+                                'selesai' => 'success',
+                                default => 'gray',
                             })
                             ->formatStateUsing(fn (string $state): string => ucfirst($state)),
                     ])

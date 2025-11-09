@@ -12,6 +12,8 @@ class ArsipSurat extends Model
 
     protected $fillable = [
         'kategori_id',
+        'template_surat_id',
+        'user_id',
         'nomor_surat',
         'tanggal_surat',
         'tanggal_terima',
@@ -19,21 +21,42 @@ class ArsipSurat extends Model
         'isi_ringkas',
         'pengirim',
         'penerima',
+        'data_variables',
+        'content_final',
+        'nama_penandatangan',
+        'jabatan_penandatangan',
+        'nip_penandatangan',
         'file_path',
         'status',
         'jenis',
         'catatan',
+        'generated_at',
     ];
 
     protected $casts = [
         'tanggal_surat' => 'date',
         'tanggal_terima' => 'date',
+        'data_variables' => 'array',
+        'content_final' => 'array',
+        'generated_at' => 'datetime',
     ];
 
     // Relationship: Arsip milik 1 kategori
     public function kategori(): BelongsTo
     {
         return $this->belongsTo(Kategori::class);
+    }
+    
+    // Relationship: Arsip dari template surat
+    public function templateSurat(): BelongsTo
+    {
+        return $this->belongsTo(TemplateSurat::class);
+    }
+    
+    // Relationship: Arsip dibuat oleh user
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     // Helper: Get full file URL
