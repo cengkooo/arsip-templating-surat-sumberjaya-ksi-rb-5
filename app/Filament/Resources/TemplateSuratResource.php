@@ -199,23 +199,12 @@ class TemplateSuratResource extends Resource
                                             })
                                             ->columnSpanFull(),
                                         
-                                        Forms\Components\RichEditor::make('content_header')
+                                        Forms\Components\Textarea::make('content_header')
                                             ->label('Header Tambahan (Optional)')
                                             ->columnSpanFull()
-                                            ->placeholder('Kosongkan jika tidak perlu header tambahan')
-                                            ->toolbarButtons([
-                                                'bold',
-                                                'italic',
-                                                'underline',
-                                                'strike',
-                                                'alignLeft',
-                                                'alignCenter',
-                                                'alignRight',
-                                                'alignJustify',
-                                                'bulletList',
-                                                'orderedList',
-                                                'table',
-                                            ])
+                                            ->rows(5)
+                                            ->placeholder('Kosongkan jika tidak perlu header tambahan. Contoh: Nomor: {{nomor_surat}}\nLampiran: {{lampiran}}\nPerihal: {{perihal}}')
+                                            ->helperText('💡 Gunakan HTML untuk format. Contoh: <p style="text-align: center;"><strong>Teks Bold</strong></p>')
                                             ->required(false),
                                     ])
                                     ->collapsible()
@@ -263,32 +252,43 @@ class TemplateSuratResource extends Resource
                                                     <p style="margin-top: 10px; color: #059669; font-size: 12px;">
                                                         ✅ <strong>Variable yang digunakan:</strong> nama, tempat_lahir, tanggal_lahir, nik, jenis_kelamin, agama, pekerjaan, alamat, nomor_surat
                                                     </p>
+                                                    <button type="button" onclick="
+                                                        const template = `<p style=&quot;text-align: center; margin: 0;&quot;><strong><u>SURAT KETERANGAN TIDAK MAMPU</u></strong></p>
+<p style=&quot;text-align: center; margin: 0 0 20px 0;&quot;>Nomor: {{nomor_surat}}</p>
+
+<p style=&quot;text-align: justify; text-indent: 50px;&quot;>Yang bertanda tangan di bawah ini Kepala Desa Sumberjaya Kecamatan Kalianda Kabupaten Lampung Selatan menerangkan bahwa:</p>
+
+<table style=&quot;margin-left: 50px; margin-bottom: 15px; border: none;&quot;>
+    <tr><td width=&quot;200&quot;>Nama</td><td>: <strong>{{nama}}</strong></td></tr>
+    <tr><td>Tempat Tanggal Lahir</td><td>: {{tempat_lahir}}, {{tanggal_lahir}}</td></tr>
+    <tr><td>NIK</td><td>: {{nik}}</td></tr>
+    <tr><td>Jenis Kelamin</td><td>: {{jenis_kelamin}}</td></tr>
+    <tr><td>Agama</td><td>: {{agama}}</td></tr>
+    <tr><td>Pekerjaan</td><td>: {{pekerjaan}}</td></tr>
+    <tr><td>Alamat</td><td>: {{alamat}}</td></tr>
+</table>
+
+<p style=&quot;text-align: justify; text-indent: 50px;&quot;>Bahwa nama yang tercantum diatas adalah benar-benar berdomisili di Desa Sumberjaya, Kecamatan Kalianda. Sepanjang pengamatan kami dan sesuai data yang ada dalam catatan kependudukan orang tersebut diatas benar tergolong dalam keluarga prasejahtera (Keluarga Berpenghasilan Rendah). Surat Keterangan ini diberikan untuk mendapatkan bantuan berupa rehab/perbaikan rumah tempat tinggal.</p>
+
+<p style=&quot;text-align: justify; text-indent: 50px;&quot;>Demikian surat keterangan ini dibuat dengan sebenarnya dan diberikan kepada yang bersangkutan untuk dapat dipergunakan sebagaimana mestinya.</p>`;
+                                                        navigator.clipboard.writeText(template);
+                                                        alert(\'✅ Template HTML berhasil di-copy! Paste (Ctrl+V) ke field Isi Surat.\');
+                                                    " style="margin-top: 10px; padding: 8px 16px; background: #059669; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">
+                                                        📋 Copy Template HTML Ini
+                                                    </button>
                                                 ');
                                             })
                                             ->columnSpanFull(),
                                         
-                                        Forms\Components\RichEditor::make('content_body')
-                                            ->label('Tulis Template Isi Surat')
+                                        Forms\Components\Textarea::make('content_body')
+                                            ->label('Tulis Template Isi Surat (HTML)')
                                             ->required()
                                             ->columnSpanFull()
-                                            ->placeholder('Klik di sini untuk mulai menulis template surat...')
-                                            ->helperText('💡 Gunakan {{nama_variable}} untuk data dinamis. Lihat tab "Form Isian" untuk daftar variable yang tersedia.')
-                                            ->toolbarButtons([
-                                                'bold',
-                                                'italic',
-                                                'underline',
-                                                'strike',
-                                                'alignLeft',
-                                                'alignCenter',
-                                                'alignRight',
-                                                'alignJustify',
-                                                'bulletList',
-                                                'orderedList',
-                                                'h2',
-                                                'h3',
-                                                'table',
-                                                'blockquote',
-                                            ]),
+                                            ->rows(25)
+                                            ->placeholder('Tulis HTML template surat di sini...')
+                                            ->helperText('💡 Gunakan {{nama_variable}} untuk data dinamis. Lihat tab "Form Isian" untuk daftar variable. Copy template contoh di atas dan edit sesuai kebutuhan.')
+                                            ->hint('Klik "Copy Template Contoh" di atas untuk memulai')
+                                            ->hintIcon('heroicon-o-clipboard-document-list'),
                                     ])
                                     ->collapsible()
                                     ->collapsed(false),
@@ -318,24 +318,29 @@ class TemplateSuratResource extends Resource
                                                         <br>
                                                         💡 Data ini akan diisi saat Generate Surat (bisa berbeda tiap surat)
                                                     </p>
+                                                    <button type="button" onclick="
+                                                        const template = `<div style=&quot;text-align: right; margin-top: 30px;&quot;>
+    <p style=&quot;margin: 0;&quot;>Sumberjaya, {{tanggal_surat}}</p>
+    <p style=&quot;margin: 5px 0;&quot;><strong>{{jabatan}}</strong></p>
+    <br><br><br>
+    <p style=&quot;margin: 0;&quot;><strong><u>{{penandatangan}}</u></strong></p>
+    <p style=&quot;margin: 0;&quot;>NIP: {{nip}}</p>
+</div>`;
+                                                        navigator.clipboard.writeText(template);
+                                                        alert(\'✅ Template Footer berhasil di-copy! Paste (Ctrl+V) ke field Footer.\');
+                                                    " style="margin-top: 10px; padding: 8px 16px; background: #dc2626; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">
+                                                        📋 Copy Template Footer Ini
+                                                    </button>
                                                 ');
                                             })
                                             ->columnSpanFull(),
                                         
-                                        Forms\Components\RichEditor::make('content_footer')
-                                            ->label('Tulis Template Footer')
+                                        Forms\Components\Textarea::make('content_footer')
+                                            ->label('Tulis Template Footer (HTML)')
                                             ->columnSpanFull()
-                                            ->placeholder('Klik di sini untuk menulis template footer...')
-                                            ->helperText('💡 Variable: {{penandatangan}}, {{jabatan}}, {{nip}}, {{tanggal_surat}}')
-                                            ->toolbarButtons([
-                                                'bold',
-                                                'italic',
-                                                'underline',
-                                                'alignLeft',
-                                                'alignCenter',
-                                                'alignRight',
-                                                'table',
-                                            ])
+                                            ->rows(10)
+                                            ->placeholder('Tulis HTML template footer di sini...')
+                                            ->helperText('💡 Variable: {{penandatangan}}, {{jabatan}}, {{nip}}, {{tanggal_surat}}. Copy template contoh di atas dan edit.')
                                             ->required(false),
                                     ])
                                     ->collapsible()

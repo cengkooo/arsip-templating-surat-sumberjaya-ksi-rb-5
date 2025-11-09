@@ -82,6 +82,8 @@ Password: password
 
 ## 📚 Dokumentasi
 
+- [📖 TUTORIAL-LENGKAP.md](TUTORIAL-LENGKAP.md) - **Tutorial lengkap step-by-step dari awal**
+- [✨ PANDUAN-EDITOR-ADVANCED.md](PANDUAN-EDITOR-ADVANCED.md) - **Panduan Editor TinyMCE (indentasi, formatting, tips & trik)**
 - [📖 PANDUAN-ARSIP-SURAT.md](PANDUAN-ARSIP-SURAT.md) - Panduan lengkap penggunaan Arsip Surat
 - [📖 PANDUAN-PENGATURAN-DESA.md](PANDUAN-PENGATURAN-DESA.md) - Setup Pengaturan Desa
 - [📖 PANDUAN-UPLOAD-LOGO.md](PANDUAN-UPLOAD-LOGO.md) - Cara upload logo kop surat
