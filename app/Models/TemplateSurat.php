@@ -32,7 +32,6 @@ class TemplateSurat extends Model
         'tampilkan_footer',
         'tampilkan_logo',
         'format_nomor',
-        'sediakan_layanan_mandiri',
         'lampiran_template',
     ];
 
@@ -43,7 +42,6 @@ class TemplateSurat extends Model
         'tampilkan_header' => 'boolean',
         'tampilkan_footer' => 'boolean',
         'tampilkan_logo' => 'boolean',
-        'sediakan_layanan_mandiri' => 'boolean',
         'margin_kiri' => 'decimal:2',
         'margin_kanan' => 'decimal:2',
         'margin_atas' => 'decimal:2',

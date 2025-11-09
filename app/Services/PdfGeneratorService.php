@@ -22,9 +22,10 @@ class PdfGeneratorService
             // 2. Variable dari form isian
             $arsipSurat->data_variables ?? [],
             
-            // 3. Variable dari Arsip Surat (nomor, tanggal, penandatangan)
+            // 3. Variable dari Arsip Surat (nomor, tanggal, lampiran, penandatangan)
             [
                 'nomor_surat' => $arsipSurat->nomor_surat,
+                'lampiran' => $arsipSurat->lampiran ?? '-',
                 'tanggal_surat' => $arsipSurat->tanggal_surat->isoFormat('D MMMM YYYY'),
                 'penandatangan' => $arsipSurat->nama_penandatangan ?? $desaSetting?->nama_pamong_ttd ?? '',
                 'jabatan' => $arsipSurat->jabatan_penandatangan ?? $desaSetting?->jabatan_pamong_ttd ?? '',

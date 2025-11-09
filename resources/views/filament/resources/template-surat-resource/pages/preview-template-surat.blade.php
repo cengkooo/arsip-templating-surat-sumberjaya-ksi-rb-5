@@ -59,12 +59,6 @@
                         {{ $record->is_active ? 'Aktif' : 'Nonaktif' }}
                     </span>
                 </div>
-                <div class="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
-                    <h3 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-2">Layanan Mandiri</h3>
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold {{ $record->sediakan_layanan_mandiri ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200' }}">
-                        {{ $record->sediakan_layanan_mandiri ? 'Ya' : 'Tidak' }}
-                    </span>
-                </div>
             </div>
             
             <!-- Margin -->

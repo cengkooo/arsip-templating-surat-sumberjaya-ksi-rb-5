@@ -48,20 +48,30 @@ class CreateFromTemplate extends CreateRecord
                             ->maxLength(100)
                             ->label('Nomor Surat')
                             ->placeholder('001/SK/XI/2025')
-                            ->helperText('Nomor unik surat'),
+                            ->helperText('Nomor unik surat')
+                            ->columnSpan(1),
                         
                         Forms\Components\DatePicker::make('tanggal_surat')
                             ->required()
                             ->native(false)
                             ->displayFormat('d/m/Y')
                             ->default(now())
-                            ->label('Tanggal Surat'),
+                            ->label('Tanggal Surat')
+                            ->columnSpan(1),
+                        
+                        Forms\Components\TextInput::make('lampiran')
+                            ->maxLength(100)
+                            ->label('Lampiran')
+                            ->placeholder('- (jika tidak ada lampiran)')
+                            ->helperText('Isi dengan jumlah/jenis lampiran, atau "-" jika tidak ada')
+                            ->columnSpan(1),
                         
                         Forms\Components\TextInput::make('perihal')
                             ->required()
                             ->maxLength(255)
                             ->label('Perihal/Judul')
-                            ->placeholder('Surat Keterangan Tidak Mampu'),
+                            ->placeholder('Surat Keterangan Tidak Mampu')
+                            ->columnSpan(3),
                     ])
                     ->columns(3)
                     ->collapsible(),

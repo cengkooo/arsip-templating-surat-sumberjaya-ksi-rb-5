@@ -88,13 +88,8 @@ class TemplateSuratResource extends Resource
                                         Forms\Components\Toggle::make('is_active')
                                             ->label('Aktif')
                                             ->default(true),
-                                        
-                                        Forms\Components\Toggle::make('sediakan_layanan_mandiri')
-                                            ->label('Sediakan di Layanan Mandiri')
-                                            ->helperText('Izinkan warga mengajukan surat ini secara online')
-                                            ->default(false),
                                     ])
-                                    ->columns(4),
+                                    ->columns(3),
                                 
                                 Forms\Components\Section::make('Margin Kertas (cm)')
                                     ->schema([

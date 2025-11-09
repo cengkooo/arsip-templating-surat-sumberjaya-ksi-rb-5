@@ -15,6 +15,7 @@ class ArsipSurat extends Model
         'template_surat_id',
         'user_id',
         'nomor_surat',
+        'lampiran',
         'tanggal_surat',
         'tanggal_terima',
         'perihal',
