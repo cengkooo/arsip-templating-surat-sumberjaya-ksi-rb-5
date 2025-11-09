@@ -33,11 +33,21 @@ class ManageDesaSettings extends ManageRecords
     
     public function mount(): void
     {
-        // Auto-redirect ke edit jika sudah ada data
-        $setting = DesaSetting::getActive();
+        // Auto-redirect ke edit
+        $setting = DesaSetting::first();
         
-        if ($setting) {
-            redirect()->to(DesaSettingResource::getUrl('index') . '/' . $setting->id . '/edit');
+        if (!$setting) {
+            // Buat record baru jika belum ada
+            $setting = DesaSetting::create([
+                'nama_provinsi' => 'LAMPUNG',
+                'nama_kabupaten' => 'KABUPATEN LAMPUNG SELATAN',
+                'nama_kecamatan' => 'KECAMATAN KALIANDA',
+                'nama_desa' => 'DESA SUMBERJAYA',
+                'is_active' => true,
+            ]);
         }
+        
+        // Redirect ke halaman edit
+        $this->redirect(DesaSettingResource::getUrl('edit', ['record' => $setting->id]));
     }
 }

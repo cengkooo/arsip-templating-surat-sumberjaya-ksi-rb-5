@@ -384,8 +384,52 @@ class TemplateSuratResource extends Resource
                                             ]),
                                         
                                         Forms\Components\Placeholder::make('variable_info')
-                                            ->label('Cara Penggunaan')
-                                            ->content('Gunakan variable dalam template dengan format: {{nama_variable}}. Contoh: {{nama}}, {{nik}}, {{alamat}}')
+                                            ->label('Cara Penggunaan Variable')
+                                            ->content(function () {
+                                                return new \Illuminate\Support\HtmlString('
+                                                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 10px; color: white; margin-bottom: 15px;">
+                                                        <h3 style="margin: 0 0 10px 0; font-size: 16px;">📋 Cara Penggunaan Variable</h3>
+                                                        <p style="margin: 0; opacity: 0.9;">Gunakan format <strong>{{nama_variable}}</strong> dalam template.</p>
+                                                        <p style="margin: 5px 0 0 0; opacity: 0.9;">Contoh: {{nama}}, {{nik}}, {{alamat}}</p>
+                                                    </div>
+                                                    
+                                                    <div style="background: #f0f9ff; padding: 15px; border-radius: 8px; border-left: 4px solid #0ea5e9; margin-bottom: 15px;">
+                                                        <h4 style="margin: 0 0 10px 0; color: #0369a1; font-size: 14px;">🏛️ Variable dari Pengaturan Desa (Otomatis Tersedia)</h4>
+                                                        <p style="margin: 0 0 8px 0; font-size: 13px; color: #0c4a6e;">Variable berikut OTOMATIS tersedia dari menu <strong>Pengaturan Desa</strong>:</p>
+                                                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; font-family: monospace; font-size: 12px;">
+                                                            <span style="background: white; padding: 6px 10px; border-radius: 4px; border: 1px solid #bae6fd;">{{nama_desa}}</span>
+                                                            <span style="background: white; padding: 6px 10px; border-radius: 4px; border: 1px solid #bae6fd;">{{kode_desa}}</span>
+                                                            <span style="background: white; padding: 6px 10px; border-radius: 4px; border: 1px solid #bae6fd;">{{nama_kecamatan}}</span>
+                                                            <span style="background: white; padding: 6px 10px; border-radius: 4px; border: 1px solid #bae6fd;">{{nama_kabupaten}}</span>
+                                                            <span style="background: white; padding: 6px 10px; border-radius: 4px; border: 1px solid #bae6fd;">{{nama_provinsi}}</span>
+                                                            <span style="background: white; padding: 6px 10px; border-radius: 4px; border: 1px solid #bae6fd;">{{alamat_desa}}</span>
+                                                            <span style="background: white; padding: 6px 10px; border-radius: 4px; border: 1px solid #bae6fd;">{{kode_pos}}</span>
+                                                            <span style="background: white; padding: 6px 10px; border-radius: 4px; border: 1px solid #bae6fd;">{{telepon_desa}}</span>
+                                                            <span style="background: white; padding: 6px 10px; border-radius: 4px; border: 1px solid #bae6fd;">{{email_desa}}</span>
+                                                            <span style="background: white; padding: 6px 10px; border-radius: 4px; border: 1px solid #bae6fd;">{{website_desa}}</span>
+                                                            <span style="background: white; padding: 6px 10px; border-radius: 4px; border: 1px solid #bae6fd;">{{nama_kepala_desa}}</span>
+                                                            <span style="background: white; padding: 6px 10px; border-radius: 4px; border: 1px solid #bae6fd;">{{nip_kepala_desa}}</span>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div style="background: #fef3c7; padding: 15px; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 15px;">
+                                                        <h4 style="margin: 0 0 10px 0; color: #92400e; font-size: 14px;">🔢 Variable Sistem (Otomatis)</h4>
+                                                        <p style="margin: 0 0 8px 0; font-size: 13px; color: #78350f;">Variable ini otomatis terisi saat generate surat:</p>
+                                                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; font-family: monospace; font-size: 12px;">
+                                                            <span style="background: white; padding: 6px 10px; border-radius: 4px; border: 1px solid #fde68a;">{{nomor_surat}}</span>
+                                                            <span style="background: white; padding: 6px 10px; border-radius: 4px; border: 1px solid #fde68a;">{{tanggal_surat}}</span>
+                                                            <span style="background: white; padding: 6px 10px; border-radius: 4px; border: 1px solid #fde68a;">{{penandatangan}}</span>
+                                                            <span style="background: white; padding: 6px 10px; border-radius: 4px; border: 1px solid #fde68a;">{{jabatan}}</span>
+                                                            <span style="background: white; padding: 6px 10px; border-radius: 4px; border: 1px solid #fde68a;">{{nip}}</span>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div style="background: #dcfce7; padding: 15px; border-radius: 8px; border-left: 4px solid #22c55e;">
+                                                        <h4 style="margin: 0 0 10px 0; color: #14532d; font-size: 14px;">✏️ Variable Custom (Didefinisikan di Atas)</h4>
+                                                        <p style="margin: 0; font-size: 13px; color: #14532d;">Variable yang Anda buat di field "Daftar Variable" di atas akan muncul sebagai form isian saat Generate Surat.</p>
+                                                    </div>
+                                                ');
+                                            })
                                             ->columnSpanFull(),
                                     ]),
                                 
