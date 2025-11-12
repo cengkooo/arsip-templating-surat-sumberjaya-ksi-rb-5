@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             KategoriSeeder::class,
             TemplateSuratSeeder::class,
+            TemplateSuratDomisiliSeeder::class,
             // Opsional: DesaSettingSeeder::class, // aktifkan jika ingin default setting desa
         ]);
     }
