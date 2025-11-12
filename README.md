@@ -87,7 +87,12 @@ Password: password
 - [📖 PANDUAN-ARSIP-SURAT.md](PANDUAN-ARSIP-SURAT.md) - Panduan lengkap penggunaan Arsip Surat
 - [📖 PANDUAN-PENGATURAN-DESA.md](PANDUAN-PENGATURAN-DESA.md) - Setup Pengaturan Desa
 - [📖 PANDUAN-UPLOAD-LOGO.md](PANDUAN-UPLOAD-LOGO.md) - Cara upload logo kop surat
+- [🎨 PANDUAN-CUSTOM-KOP-SURAT.md](PANDUAN-CUSTOM-KOP-SURAT.md) - Customize kop surat format & layout
 - [🔄 MIGRASI-DATA-GENERATE-SURAT.md](MIGRASI-DATA-GENERATE-SURAT.md) - Panduan migrasi data lama
+- [🧪 BLACKBOX-TESTING-GUIDE.md](BLACKBOX-TESTING-GUIDE.md) - Testing guide dengan 7 scenario
+- [🔧 SOLUSI-FINAL-TEXTINPUT.md](SOLUSI-FINAL-TEXTINPUT.md) - Solusi field dropdown/date → TextInput
+- [🔧 FIX-DROPDOWN-FIELDS.md](FIX-DROPDOWN-FIELDS.md) - Technical fix untuk field binding
+- [🔧 FIX-LOGO-TIDAK-MUNCUL.md](FIX-LOGO-TIDAK-MUNCUL.md) - Troubleshooting logo di PDF
 
 ---
 

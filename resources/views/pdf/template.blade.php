@@ -33,11 +33,12 @@
         }
         
         .kop-surat .logo {
-            width: 110px;
-            height: 110px;
+            width: 90px;
+            height: 90px;
             position: absolute;
             left: 10px;
             top: 25px;
+            line-height: 1.4;
         }
         
         .kop-surat .identitas {
@@ -45,14 +46,29 @@
             text-align: center;
         }
         
-        .kop-surat .nama-pemerintahan {
-            font-size: 18pt;
-            font-weight: bold;
+        .kop-surat .nama-pemerintahan-kabupaten {
+            font:'arial black', sans-serif;
+            font-size: 14pt;
+            font-weight: bold; 
             margin: 0;
             padding: 0;
-            line-height: 1.4;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        }
+
+        
+            .kop-surat .nama-pemerintahan-kecamatan {
+            font:'times new roman', sans-serif;
+            font-size: 20pt;
+            font-weight: bold; 
+            margin: 0;
+            padding: 0;
+        }
+
+            .kop-surat .nama-pemerintahan-desa {
+            font:'Bookman Old Style', sans-serif;
+            font-size: 16pt;
+            font-weight: bold; 
+            margin: 0;
+            padding: 0;
         }
         
         .kop-surat .nama-pemerintahan div {
@@ -60,20 +76,7 @@
             padding: 0;
         }
         
-        .kop-surat .alamat {
-            font-size: 11pt;
-            margin: 8px 0 0 0;
-            padding: 0;
-            line-height: 1.3;
-            font-style: italic;
-        }
-        
-        .kop-surat .kontak {
-            font-size: 10pt;
-            margin: 5px 0 0 0;
-            padding: 0;
-            line-height: 1.2;
-        }
+        /* alamat & kontak dihapus dari kop surat */
         
         /* HEADER TAMBAHAN */
         .header-tambahan {
@@ -180,46 +183,23 @@
             @endif
             
             <div class="identitas">
-                <div class="nama-pemerintahan">
+                    <div class="nama-pemerintahan-kabupaten">
                     @if($desaSetting->nama_kabupaten)
                     <div>{{ strtoupper($desaSetting->nama_kabupaten) }}</div>
                     @endif
+                    </div>
+                    <div class="nama-pemerintahan-kecamatan">
                     @if($desaSetting->nama_kecamatan)
                     <div>{{ strtoupper($desaSetting->nama_kecamatan) }}</div>
                     @endif
+                    </div>
+                    <div class="nama-pemerintahan-desa">
                     @if($desaSetting->nama_desa)
                     <div>{{ strtoupper($desaSetting->nama_desa) }}</div>
                     @endif
-                </div>
+                    </div>
                 
-                @if($desaSetting->alamat_lengkap)
-                <div class="alamat">
-                    {{ $desaSetting->alamat_lengkap }}
-                    @if($desaSetting->kode_pos)
-                     Kode Pos {{ $desaSetting->kode_pos }}
-                    @endif
-                </div>
-                @endif
-                
-                @if($desaSetting->no_telepon || $desaSetting->email || $desaSetting->website)
-                <div class="kontak">
-                    @if($desaSetting->no_telepon)
-                    Telp: {{ $desaSetting->no_telepon }}
-                    @endif
-                    @if($desaSetting->email && $desaSetting->no_telepon)
-                     | 
-                    @endif
-                    @if($desaSetting->email)
-                    Email: {{ $desaSetting->email }}
-                    @endif
-                    @if($desaSetting->website && ($desaSetting->email || $desaSetting->no_telepon))
-                     | 
-                    @endif
-                    @if($desaSetting->website)
-                    Website: {{ $desaSetting->website }}
-                    @endif
-                </div>
-                @endif
+                <!-- alamat_lengkap, no_telepon, email, website tidak ditampilkan di kop surat -->
             </div>
         </div>
         @endif

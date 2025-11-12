@@ -99,24 +99,17 @@ class CreateFromTemplate extends CreateRecord
                             ];
                         }
                         
-                        $fields = [];
+                        // Hidden field untuk menyimpan data variables sebagai JSON
+                        $fields = [
+                            Forms\Components\Hidden::make('form_variables')
+                                ->default('{}'),
+                        ];
+                        
+                        // Create visible fields
                         foreach ($template->variables as $variable) {
-                            // Special handling untuk jenis_kelamin
-                            if ($variable === 'jenis_kelamin') {
-                                $fields[] = Forms\Components\Select::make("variables.{$variable}")
-                                    ->label('Jenis Kelamin')
-                                    ->options([
-                                        'Pria' => 'Pria',
-                                        'Wanita' => 'Wanita',
-                                    ])
-                                    ->native(false)
-                                    ->required()
-                                    ->helperText("Akan mengganti {{" . $variable . "}} di template");
-                            } else {
-                                $fields[] = Forms\Components\TextInput::make("variables.{$variable}")
-                                    ->label(ucfirst(str_replace('_', ' ', $variable)))
-                                    ->placeholder("Isi {$variable}")
-                                    ->helperText("Akan mengganti {{" . $variable . "}} di template");
+                            $field = $this->createFieldForVariable($variable);
+                            if ($field) {
+                                $fields[] = $field;
                             }
                         }
                         
@@ -170,22 +163,192 @@ class CreateFromTemplate extends CreateRecord
         $set('kategori_id', $template->kategori_id);
     }
     
+    /**
+     * Create form field untuk setiap variable
+     * Simple mapping dengan minimal configuration
+     */
+    protected function createFieldForVariable(string $variable)
+    {
+        $label = ucfirst(str_replace('_', ' ', $variable));
+        $helperText = "{{" . $variable . "}}";
+        
+        return match($variable) {
+            'nama' => Forms\Components\TextInput::make($variable)
+                ->label('Nama')
+                ->maxLength(100)
+                ->placeholder('Andryano')
+                ->helperText($helperText),
+            
+            'nik' => Forms\Components\TextInput::make($variable)
+                ->label('NIK')
+                ->mask('9999999999999999')
+                ->placeholder('1234567890123456')
+                ->helperText($helperText),
+            
+            'no_kk' => Forms\Components\TextInput::make($variable)
+                ->label('Nomor KK')
+                ->mask('9999999999999999')
+                ->placeholder('1234567890123456')
+                ->helperText($helperText),
+            
+            'tempat_lahir' => Forms\Components\TextInput::make($variable)
+                ->label('Tempat Lahir')
+                ->placeholder('Jakarta')
+                ->helperText($helperText),
+            
+            'tanggal_lahir' => Forms\Components\TextInput::make($variable)
+                ->label('Tanggal Lahir')
+                ->placeholder('20 Juni 1990')
+                ->helperText($helperText),
+            
+            'jenis_kelamin' => Forms\Components\TextInput::make($variable)
+                ->label('Jenis Kelamin')
+                ->placeholder('Pria / Wanita')
+                ->helperText($helperText),
+            
+            'alamat' => Forms\Components\Textarea::make($variable)
+                ->label('Alamat')
+                ->rows(2)
+                ->placeholder('Jl. Way Urang No. 123')
+                ->helperText($helperText)
+                ->columnSpanFull(),
+            
+            'rt' => Forms\Components\TextInput::make($variable)
+                ->label('RT')
+                ->placeholder('01')
+                ->helperText($helperText),
+            
+            'rw' => Forms\Components\TextInput::make($variable)
+                ->label('RW')
+                ->placeholder('05')
+                ->helperText($helperText),
+            
+            'dusun' => Forms\Components\TextInput::make($variable)
+                ->label('Dusun')
+                ->placeholder('Dusun I')
+                ->helperText($helperText),
+            
+            'kelurahan' => Forms\Components\TextInput::make($variable)
+                ->label('Kelurahan')
+                ->placeholder('Sumberjaya')
+                ->helperText($helperText),
+            
+            'kecamatan' => Forms\Components\TextInput::make($variable)
+                ->label('Kecamatan')
+                ->placeholder('Kalianda')
+                ->helperText($helperText),
+            
+            'kabupaten' => Forms\Components\TextInput::make($variable)
+                ->label('Kabupaten')
+                ->placeholder('Lampung Selatan')
+                ->helperText($helperText),
+            
+            'provinsi' => Forms\Components\TextInput::make($variable)
+                ->label('Provinsi')
+                ->placeholder('Lampung')
+                ->helperText($helperText),
+            
+            'agama' => Forms\Components\TextInput::make($variable)
+                ->label('Agama')
+                ->placeholder('Islam / Kristen / Katolik / Hindu / Buddha / Konghucu')
+                ->helperText($helperText),
+            
+            'status_perkawinan' => Forms\Components\TextInput::make($variable)
+                ->label('Status Perkawinan')
+                ->placeholder('Belum Kawin / Kawin / Cerai Hidup / Cerai Mati')
+                ->helperText($helperText),
+            
+            'pekerjaan' => Forms\Components\TextInput::make($variable)
+                ->label('Pekerjaan')
+                ->placeholder('Mahasiswa')
+                ->helperText($helperText),
+            
+            'kewarganegaraan' => Forms\Components\TextInput::make($variable)
+                ->label('Kewarganegaraan')
+                ->placeholder('WNI / WNA')
+                ->default('WNI')
+                ->helperText($helperText),
+            
+            'berlaku_hingga' => Forms\Components\TextInput::make($variable)
+                ->label('Berlaku Hingga')
+                ->placeholder('31 Desember 2025')
+                ->helperText($helperText),
+            
+            'keperluan' => Forms\Components\Textarea::make($variable)
+                ->label('Keperluan')
+                ->rows(2)
+                ->placeholder('Mengurus persyaratan...')
+                ->helperText($helperText)
+                ->columnSpanFull(),
+            
+            'keterangan' => Forms\Components\Textarea::make($variable)
+                ->label('Keterangan')
+                ->rows(3)
+                ->placeholder('Catatan tambahan')
+                ->helperText($helperText)
+                ->columnSpanFull(),
+            
+            default => Forms\Components\TextInput::make($variable)
+                ->label($label)
+                ->placeholder("Isi {$variable}")
+                ->helperText($helperText),
+        };
+    }
+    
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         // Set user_id
         $data['user_id'] = Auth::id();
         
-        // Set jenis surat (keluar karena dari template desa)
+        // Set jenis surat
         $data['jenis'] = 'keluar';
         
         // Set status default
         $data['status'] = 'draft';
         
-        // Ambil variables dari form
-        $dataVariables = $data['variables'] ?? [];
-        unset($data['variables']);
+        // Get template
+        $template = TemplateSurat::find($data['template_surat_id'] ?? null);
         
+        if (!$template) {
+            return $data;
+        }
+        
+        // Extract variables based on template
+        $dataVariables = [];
+        
+        if ($template->variables) {
+            foreach ($template->variables as $variable) {
+                // Check if this variable exists in the form data
+                if (array_key_exists($variable, $data)) {
+                    $value = $data[$variable];
+                    
+                    // Handle date fields - convert to string for storage
+                    if ($value instanceof \Carbon\Carbon) {
+                        $value = $value->isoFormat('D MMMM YYYY');
+                    }
+                    
+                    // DEBUG: Log extraction
+                    \Log::debug("Extracting variable: {$variable}", [
+                        'value' => $value,
+                        'type' => gettype($value),
+                    ]);
+                    
+                    $dataVariables[$variable] = $value;
+                    
+                    // Remove from main data (don't save to arsip_surats table columns)
+                    unset($data[$variable]);
+                }
+            }
+        }
+        
+        // DEBUG: Log final dataVariables
+        \Log::debug('mutateFormDataBeforeCreate - dataVariables:', $dataVariables);
+        
+        // Store as JSON
         $data['data_variables'] = $dataVariables;
+        
+        // Remove form_variables hidden field if exists
+        unset($data['form_variables']);
         
         return $data;
     }

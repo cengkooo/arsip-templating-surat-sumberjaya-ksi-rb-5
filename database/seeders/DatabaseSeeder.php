@@ -13,11 +13,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
+        // Seed minimal user
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+        ]);
+
+        // Seed konfigurasi dasar agar repo langsung siap pakai
+        $this->call([
+            KategoriSeeder::class,
+            TemplateSuratSeeder::class,
+            // Opsional: DesaSettingSeeder::class, // aktifkan jika ingin default setting desa
         ]);
     }
 }

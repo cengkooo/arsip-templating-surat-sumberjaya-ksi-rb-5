@@ -34,6 +34,13 @@ class PdfGeneratorService
             ]
         );
         
+        // DEBUG: Log all variables untuk troubleshoot
+        \Log::debug('PdfGeneratorService - allVariables:', [
+            'jenis_kelamin' => $allVariables['jenis_kelamin'] ?? 'NOT SET',
+            'agama' => $allVariables['agama'] ?? 'NOT SET',
+            'data_variables' => $arsipSurat->data_variables ?? [],
+        ]);
+        
         $contentBody = $this->replaceVariables(
             $template->content_body,
             $allVariables

@@ -7,6 +7,7 @@ use App\Models\DesaSetting;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\Cache;
 
 class EditDesaSetting extends EditRecord
 {
@@ -49,7 +50,22 @@ class EditDesaSetting extends EditRecord
     {
         return Notification::make()
             ->success()
-            ->title('Pengaturan Desa Berhasil Diperbarui')
-            ->body('Data desa telah disimpan dan akan digunakan untuk semua surat.');
+            ->title('✅ Pengaturan Desa Berhasil Diperbarui')
+            ->body('Data desa telah disimpan dan akan digunakan untuk semua surat.')
+            ->duration(5000)
+            ->persistent();
+    }
+
+    /**
+     * Handle after save to ensure notification displays
+     */
+    protected function afterSave(): void
+    {
+        // Ensure database write is complete
+        $this->record->refresh();
+        
+        // Clear cache untuk template variables
+        Cache::forget('desa_setting_variables');
+        Cache::forget('desa_setting_logo');
     }
 }
