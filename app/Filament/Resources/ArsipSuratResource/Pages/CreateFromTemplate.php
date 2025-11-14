@@ -288,6 +288,131 @@ class CreateFromTemplate extends CreateRecord
                 ->helperText($helperText)
                 ->columnSpanFull(),
             
+            // 🧑‍💼 Data Penanggung Jawab Usaha
+            'nama_usaha' => Forms\Components\TextInput::make($variable)
+                ->label('Nama Usaha')
+                ->maxLength(100)
+                ->placeholder('Toko Sumber Jaya')
+                ->helperText($helperText),
+            
+            'nama_penanggungjawab' => Forms\Components\TextInput::make($variable)
+                ->label('Nama Penanggung Jawab')
+                ->maxLength(150)
+                ->placeholder('Budi Santoso')
+                ->helperText($helperText),
+            
+            'bidang_usaha' => Forms\Components\TextInput::make($variable)
+                ->label('Bidang Usaha')
+                ->maxLength(100)
+                ->placeholder('Perdagangan / Jasa / Industri')
+                ->helperText($helperText),
+            
+            'alamat_usaha' => Forms\Components\Textarea::make($variable)
+                ->label('Alamat Usaha')
+                ->rows(2)
+                ->maxLength(255)
+                ->placeholder('Jl. Raya Kalianda No. 45')
+                ->helperText($helperText)
+                ->columnSpanFull(),
+            
+            'tahun_operasi' => Forms\Components\TextInput::make($variable)
+                ->label('Tahun Operasi')
+                ->maxLength(4)
+                ->placeholder('2025')
+                ->helperText($helperText),
+            
+            // ⚰️ Data Orang Meninggal
+            'nama_meninggal' => Forms\Components\TextInput::make($variable)
+                ->label('Nama Orang Meninggal')
+                ->maxLength(150)
+                ->placeholder('Ahmad Zainuddin')
+                ->helperText($helperText),
+            
+            'jeniskelamin_meninggal' => Forms\Components\TextInput::make($variable)
+                ->label('Jenis Kelamin (Meninggal)')
+                ->maxLength(10)
+                ->placeholder('Laki-laki / Perempuan')
+                ->helperText($helperText),
+            
+            'tempatlahir_meninggal' => Forms\Components\TextInput::make($variable)
+                ->label('Tempat Lahir (Meninggal)')
+                ->maxLength(100)
+                ->placeholder('Jakarta')
+                ->helperText($helperText),
+            
+            'tahunlahir_meninggal' => Forms\Components\TextInput::make($variable)
+                ->label('Tahun Lahir (Meninggal)')
+                ->maxLength(4)
+                ->placeholder('1950')
+                ->helperText($helperText),
+            
+            'agama_meninggal' => Forms\Components\TextInput::make($variable)
+                ->label('Agama (Meninggal)')
+                ->maxLength(20)
+                ->placeholder('Islam / Kristen / Katolik / Hindu / Buddha')
+                ->helperText($helperText),
+            
+            'pekerjaan_meninggal' => Forms\Components\TextInput::make($variable)
+                ->label('Pekerjaan (Meninggal)')
+                ->maxLength(100)
+                ->placeholder('Pensiunan / Petani / Pedagang')
+                ->helperText($helperText),
+            
+            'nik_meninggal' => Forms\Components\TextInput::make($variable)
+                ->label('NIK (Meninggal)')
+                ->mask('9999999999999999')
+                ->maxLength(16)
+                ->placeholder('1234567890123456')
+                ->helperText($helperText),
+            
+            'alamat_meninggal' => Forms\Components\Textarea::make($variable)
+                ->label('Alamat (Meninggal)')
+                ->rows(2)
+                ->maxLength(255)
+                ->placeholder('Jl. Way Urang No. 123, RT 01/05')
+                ->helperText($helperText)
+                ->columnSpanFull(),
+            
+            // 🕒 Informasi Waktu & Lokasi Meninggal
+            'hari_meninggal' => Forms\Components\TextInput::make($variable)
+                ->label('Hari Meninggal')
+                ->maxLength(20)
+                ->placeholder('Senin / Jumat / Rabu Kliwon')
+                ->helperText($helperText),
+            
+            'waktu_meninggal' => Forms\Components\TextInput::make($variable)
+                ->label('Waktu Meninggal')
+                ->maxLength(5)
+                ->placeholder('14:30')
+                ->helperText($helperText),
+            
+            'tempat_meninggal' => Forms\Components\TextInput::make($variable)
+                ->label('Tempat Meninggal')
+                ->maxLength(150)
+                ->placeholder('RSUD Kalianda / Rumah')
+                ->helperText($helperText),
+            
+            'lokasi_pemakaman' => Forms\Components\Textarea::make($variable)
+                ->label('Lokasi Pemakaman')
+                ->rows(2)
+                ->maxLength(255)
+                ->placeholder('TPU Desa Sumberjaya, Blok A No. 12')
+                ->helperText($helperText)
+                ->columnSpanFull(),
+            
+            // 👨‍👩‍👧 Data Kerabat / Pelapor (beberapa field sudah ada di atas, ini tambahan)
+            'umur' => Forms\Components\TextInput::make($variable)
+                ->label('Umur')
+                ->maxLength(3)
+                ->placeholder('25')
+                ->helperText($helperText),
+            
+            'hubungan_kerabat' => Forms\Components\TextInput::make($variable)
+                ->label('Hubungan Kerabat')
+                ->maxLength(50)
+                ->placeholder('Orang tua / Anak / Saudara / Paman')
+                ->helperText($helperText),
+            
             default => Forms\Components\TextInput::make($variable)
                 ->label($label)
                 ->placeholder("Isi {$variable}")
