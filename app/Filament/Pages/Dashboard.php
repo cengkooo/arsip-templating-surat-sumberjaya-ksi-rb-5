@@ -23,4 +23,9 @@ class Dashboard extends BaseDashboard
     {
         return 2;
     }
+
+    public function getVisibleWidgets(): array
+    {
+        return $this->filterVisibleWidgets($this->getWidgets());
+    }
 }

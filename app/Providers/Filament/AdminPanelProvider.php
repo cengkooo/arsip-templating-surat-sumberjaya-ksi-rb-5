@@ -33,12 +33,13 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
-            ->pages([
-                \App\Filament\Pages\Dashboard::class,
-            ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                // Widget dipanggil dari Dashboard page
+                \App\Filament\Widgets\StatsOverview::class,
+                \App\Filament\Widgets\SuratPerBulanChart::class,
+                \App\Filament\Widgets\TemplateUsageChart::class,
+                \App\Filament\Widgets\RecentSuratTable::class,
+                \App\Filament\Widgets\QuickActions::class,
             ])
             ->middleware([
                 EncryptCookies::class,
