@@ -27,7 +27,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->brandName('Arsip & Template Surat Sumber Jaya')
+            ->brandName('DIARSIP')
             ->colors([
                 'primary' => Color::Amber,
             ])
