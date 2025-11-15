@@ -7,8 +7,10 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
 
+
 class RecentSuratTable extends BaseWidget
 {
+    protected static string $view = 'filament.widgets.recent-surat-table';
     protected static ?string $heading = 'Surat Terbaru';
     protected static ?int $sort = 4;
     protected int | string | array $columnSpan = 'full';

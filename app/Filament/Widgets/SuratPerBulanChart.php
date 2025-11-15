@@ -11,7 +11,7 @@ class SuratPerBulanChart extends ChartWidget
 {
     protected static ?string $heading = 'Surat per Bulan';
     protected static ?int $sort = 2;
-    protected int | string | array $columnSpan = 'full';
+    protected int | string | array $columnSpan = 6; // Set to 6 for side by side display
 
     protected function getData(): array
     {
