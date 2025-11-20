@@ -63,6 +63,7 @@ php artisan key:generate
 
 # Database setup
 php artisan migrate --seed
+# Seeder otomatis akan membuat akun admin + seluruh template contoh (SKTM, Domisili, SKU, SKK) + Pengaturan Desa default
 
 # Link storage
 php artisan storage:link

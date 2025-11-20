@@ -9,11 +9,13 @@ class KategoriSeeder extends Seeder
 {
     public function run(): void
     {
+
+        // Kategori surat keterangan (dipakai semua template bawaan)
         Kategori::updateOrCreate(
-            ['kode' => 'UMUM'],
+            ['kode' => 'SK'],
             [
-                'nama' => 'Umum',
-                'keterangan' => 'Kategori umum untuk berbagai jenis surat',
+                'nama' => 'Surat Keterangan',
+                'keterangan' => 'Kategori untuk berbagai surat keterangan',
                 'is_active' => true,
             ]
         );

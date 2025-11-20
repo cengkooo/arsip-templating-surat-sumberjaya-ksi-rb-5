@@ -3,28 +3,30 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // Seed minimal user
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Create admin user
+        User::firstOrCreate(
+            ['email' => 'admin@sumberjaya.com'],
+            [
+                'name' => 'Admin Desa',
+                'password' => Hash::make('password'), // GANTI INI DI PRODUCTION!
+            ]
+        );
 
-        // Seed konfigurasi dasar agar repo langsung siap pakai
+        // Seed semua data
         $this->call([
             KategoriSeeder::class,
-            TemplateSuratSeeder::class,
+            TemplateSKTMLengkapSeeder::class,
             TemplateSuratDomisiliSeeder::class,
-            // Opsional: DesaSettingSeeder::class, // aktifkan jika ingin default setting desa
+            TemplateSuratUsahaSeeder::class,
+            TemplateSuratKematianSeeder::class,
+            DesaSettingSeeder::class, // Optional, tapi recommended
         ]);
     }
 }
