@@ -139,6 +139,14 @@ class TemplateSuratResource extends Resource
                                             ->default(true)
                                             ->live(),
                                         
+                                        Forms\Components\Toggle::make('tampilkan_logo')
+                                            ->label('Tampilkan Logo')
+                                            ->default(false),
+                                        
+                                        Forms\Components\Toggle::make('tampilkan_footer')
+                                            ->label('Tampilkan Footer')
+                                            ->default(false),
+
                                         Forms\Components\Select::make('header_type')
                                             ->label('Jenis Header')
                                             ->options([
@@ -150,18 +158,6 @@ class TemplateSuratResource extends Resource
                                             ->default('semua_halaman')
                                             ->visible(fn ($get) => $get('tampilkan_header')),
                                         
-                                        Forms\Components\Toggle::make('tampilkan_logo')
-                                            ->label('Tampilkan Logo Garuda')
-                                            ->default(false),
-                                        
-                                        Forms\Components\Toggle::make('tampilkan_footer')
-                                            ->label('Tampilkan Footer')
-                                            ->default(false),
-                                        
-                                        Forms\Components\Toggle::make('tampilkan_qrcode')
-                                            ->label('Tampilkan QR Code')
-                                            ->helperText('QR Code untuk verifikasi surat')
-                                            ->default(false),
                                     ])
                                     ->columns(3)
                                     ->collapsible(),
