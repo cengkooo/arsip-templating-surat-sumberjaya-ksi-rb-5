@@ -12,7 +12,7 @@ class TemplateSuratDomisiliSeeder extends Seeder
     {
         // Pastikan kategori 'SURAT-KETERANGAN' ada
         $kategori = Kategori::firstOrCreate(
-            ['kode' => 'SURAT-KETERANGAN'],
+            ['kode' => 'Sk'],
             [
                 'nama' => 'Surat Keterangan',
                 'keterangan' => 'Kategori untuk berbagai surat keterangan',

@@ -54,6 +54,74 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->renderHook(
+                'panels::head.start',
+                /**
+                 * Guard the sidebar store so Alpine errors don't break the panel
+                 * when assets are cached or loaded twice.
+                 */
+                static fn (): string => <<<'HTML'
+                    <script>
+                        (() => {
+                            if (window.__filamentSidebarStorePatched) return;
+
+                            const ensureSidebarStore = () => {
+                                const Alpine = window.Alpine;
+                                if (!Alpine || typeof Alpine.store !== 'function') {
+                                    return false;
+                                }
+
+                                const persist = Alpine.$persist
+                                    ? (value, key) => Alpine.$persist(value).as(key)
+                                    : (value) => value;
+
+                                if (!Alpine.store('sidebar')) {
+                                    Alpine.store('sidebar', {
+                                        isOpen: persist(true, 'isOpen'),
+                                        collapsedGroups: persist([], 'collapsedGroups'),
+                                        groupIsCollapsed(label) {
+                                            return Array.isArray(this.collapsedGroups)
+                                                ? this.collapsedGroups.includes(label)
+                                                : false;
+                                        },
+                                        toggleCollapsedGroup(label) {
+                                            if (!Array.isArray(this.collapsedGroups)) {
+                                                this.collapsedGroups = [];
+                                            }
+                                            this.collapsedGroups = this.collapsedGroups.includes(label)
+                                                ? this.collapsedGroups.filter((item) => item !== label)
+                                                : this.collapsedGroups.concat(label);
+                                        },
+                                        close() { this.isOpen = false; },
+                                        open() { this.isOpen = true; },
+                                    });
+                                }
+
+                                window.__filamentSidebarStorePatched = true;
+                                return true;
+                            };
+
+                            const kickOff = () => {
+                                if (ensureSidebarStore()) return;
+                                const watcher = setInterval(() => {
+                                    if (ensureSidebarStore()) {
+                                        clearInterval(watcher);
+                                    }
+                                }, 30);
+                                setTimeout(() => clearInterval(watcher), 2000);
+                            };
+
+                            if (document.readyState === 'complete') {
+                                kickOff();
+                            } else {
+                                window.addEventListener('load', kickOff, { once: true });
+                            }
+
+                            document.addEventListener('alpine:init', ensureSidebarStore, { once: true });
+                        })();
+                    </script>
+                HTML,
+            );
     }
 }

@@ -12,7 +12,7 @@ class TemplateSuratUsahaSeeder extends Seeder
     {
         // Pastikan kategori "Surat Keterangan" ada
         $kategori = Kategori::firstOrCreate(
-            ['kode' => 'SURAT-KETERANGAN'],
+            ['kode' => 'SK'],
             [
                 'nama' => 'Surat Keterangan',
                 'keterangan' => 'Kategori untuk berbagai surat keterangan',
