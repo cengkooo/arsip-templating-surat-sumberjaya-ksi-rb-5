@@ -20,6 +20,16 @@ class ArsipSuratResource extends Resource
     protected static ?int $navigationSort = 2;
     protected static ?string $navigationLabel = 'Arsip Surat';
 
+    public static function getModelLabel(): string
+    {
+        return 'Arsip Surat';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Arsip Surat';
+    }
+
     public static function form(Form $form): Form
     {
         return $form

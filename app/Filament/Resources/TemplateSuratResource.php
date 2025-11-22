@@ -19,6 +19,16 @@ class TemplateSuratResource extends Resource
     protected static ?int $navigationSort = 3;
     protected static ?string $navigationLabel = 'Template Surat';
 
+    public static function getModelLabel(): string
+    {
+        return 'Template Surat';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Template Surat';
+    }
+
     public static function form(Form $form): Form
     {
         return $form
