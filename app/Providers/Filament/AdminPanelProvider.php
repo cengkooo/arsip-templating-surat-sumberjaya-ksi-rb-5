@@ -39,7 +39,7 @@ class AdminPanelProvider extends PanelProvider
                 \App\Filament\Widgets\SuratPerBulanChart::class,
                 \App\Filament\Widgets\TemplateUsageChart::class,
                 \App\Filament\Widgets\RecentSuratTable::class,
-                \App\Filament\Widgets\QuickActions::class,
+                \App\Filament\Widgets\ArsipSuratDashboardTable::class,
             ])
             ->middleware([
                 EncryptCookies::class,

@@ -9,7 +9,8 @@ class TemplateUsageChart extends ChartWidget
 {
     protected static ?string $heading = 'Penggunaan Template';
     protected static ?int $sort = 3;
-        protected int | string | array $columnSpan = 6; // Set to 6 for side by side display
+    protected int | string | array $columnSpan = 'full';
+    protected static ?string $maxHeight = '220px';// Full width
 
     protected function getData(): array
     {

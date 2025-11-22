@@ -16,7 +16,7 @@ class StatsOverview extends BaseWidget
         $totalSurat = ArsipSurat::count();
         $totalArsip = ArsipSurat::where('status', 'siap_dicetak')->count();
         $totalTemplate = TemplateSurat::where('is_active', true)->count();
-        $suratPending = ArsipSurat::where('status', 'draft')->count();
+        $suratPending = ArsipSurat::where('status', '!=', 'siap_dicetak')->count();
 
         return [
             Stat::make('Total Surat', $totalSurat)
