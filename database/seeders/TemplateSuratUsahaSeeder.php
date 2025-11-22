@@ -37,7 +37,7 @@ class TemplateSuratUsahaSeeder extends Seeder
 
     <!-- Nomor -->
     <div style="text-align:center; margin-top:4px; font-size:14px; font-weight:bold;">
-        <span style="text-decoration:underline;">Nomor :</span> {{nomor_surat}}
+        <span>Nomor :</span> {{nomor_surat}}
     </div>
 
     <br><br>
@@ -158,7 +158,6 @@ HTML,
 </div>
 HTML,
                 'variables' => [
-                    'nomor_surat',
                     'nama',
                     'tempat_lahir',
                     'tanggal_lahir',
@@ -174,10 +173,6 @@ HTML,
                     'tahun_operasi',
                     'lain_lain',
                     'nama_desa',
-                    'tanggal_surat',
-                    'jabatan',
-                    'penandatangan',
-                    'nip',
                 ],
                 'orientasi' => 'portrait',
                 'ukuran_kertas' => 'A4',

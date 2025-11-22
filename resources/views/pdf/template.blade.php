@@ -6,7 +6,7 @@
     <title>Surat - {{ $arsipSurat->nomor_surat }}</title>
     <style>
         @page {
-            margin: 0;
+            margin: {{ $template->margin_atas ?? 1.5 }}cm {{ $template->margin_kanan ?? 2 }}cm {{ $template->margin_bawah ?? 1.5 }}cm {{ $template->margin_kiri ?? 2 }}cm;
         }
         
         body {
@@ -19,7 +19,7 @@
         }
         
         .page-content {
-            padding: {{ $template->margin_atas ?? 1.5 }}cm {{ $template->margin_kanan ?? 2 }}cm {{ $template->margin_bawah ?? 1.5 }}cm {{ $template->margin_kiri ?? 2 }}cm;
+            padding: 0;
         }
         
         /* KOP SURAT STYLES */

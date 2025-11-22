@@ -15,6 +15,9 @@ class DesaSettingSeeder extends Seeder
         DesaSetting::updateOrCreate(
             ['id' => 1],
             [
+                // Logo default (kop surat)
+                'logo_path' => 'logo-desa/logo-lampung-selatan.png',
+                
                 // Provinsi
                 'nama_provinsi' => 'LAMPUNG',
                 'kode_provinsi' => '18',

@@ -105,9 +105,9 @@ HTML,
     <td style="width: 50%; border: none;"></td>
     <td style="width: 50%; text-align: center; border: none;">
         <p style="margin: 0; margin-bottom: 5px;">Sumber Jaya, {{tanggal_surat}}</p>
-        <p style="margin: 0; margin-bottom: 80px;"><strong>{{jabatan}}</strong></p>
-        <p style="margin: 0; margin-bottom: 0;"><strong><u>{{penandatangan}}</u></strong></p>
-        <p style="margin: 0;">NIP: {{nip}}</p>
+        <p style="margin: 0; margin-bottom: 80px; margin-right: 130px;">{{jabatan}}</p>
+        <p style="margin: 0; margin-bottom: 0; margin-right: 170px;"><strong><u>{{penandatangan}}</u></strong></p>
+        <p style="margin: 0; margin-right: 165px;">NIP: {{nip}}</p>
     </td>
 </tr>
 </table>
@@ -115,7 +115,6 @@ HTML,
                 
                 // Variables
                 'variables' => [
-                    'nomor_surat',
                     'nama_desa',
                     'nama_kecamatan',
                     'nama_kabupaten',
@@ -127,10 +126,6 @@ HTML,
                     'agama',
                     'pekerjaan',
                     'alamat',
-                    'tanggal_surat',
-                    'jabatan',
-                    'penandatangan',
-                    'nip',
                 ],
                 
                 // Settings
