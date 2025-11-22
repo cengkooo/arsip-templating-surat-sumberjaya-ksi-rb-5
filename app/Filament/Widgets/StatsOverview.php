@@ -14,7 +14,7 @@ class StatsOverview extends BaseWidget
     protected function getStats(): array
     {
         $totalSurat = ArsipSurat::count();
-        $totalArsip = ArsipSurat::where('status', 'selesai')->count();
+        $totalArsip = ArsipSurat::where('status', 'siap_dicetak')->count();
         $totalTemplate = TemplateSurat::where('is_active', true)->count();
         $suratPending = ArsipSurat::where('status', 'draft')->count();
 

@@ -84,7 +84,7 @@ class PdfGeneratorService
         
         $arsipSurat->update([
             'file_path' => $path,
-            'status' => 'selesai',
+            'status' => 'siap_dicetak',
             'jenis' => 'keluar',
         ]);
         

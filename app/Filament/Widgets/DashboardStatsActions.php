@@ -15,7 +15,7 @@ class DashboardStatsActions extends Widget
     {
         return [
             'totalSurat' => ArsipSurat::count(),
-            'totalArsip' => ArsipSurat::where('status', 'selesai')->count(),
+            'totalArsip' => ArsipSurat::where('status', 'siap_dicetak')->count(),
             'totalTemplate' => TemplateSurat::where('is_active', true)->count(),
             'totalBaru' => 0, // Default value for the new card
         ];

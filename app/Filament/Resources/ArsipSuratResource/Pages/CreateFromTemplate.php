@@ -142,6 +142,18 @@ class CreateFromTemplate extends CreateRecord
                 
                 Forms\Components\Section::make('Catatan')
                     ->schema([
+                        Forms\Components\Select::make('status')
+                            ->label('Status')
+                            ->options([
+                                'draft' => 'Draft',
+                                'belum_lengkap' => 'Belum Lengkap',
+                                'menunggu_ttd' => 'Menunggu Tanda Tangan',
+                                'siap_dicetak' => 'Siap Dicetak',
+                            ])
+                            ->required()
+                            ->native(false)
+                            ->default('draft'),
+
                         Forms\Components\Textarea::make('catatan')
                             ->rows(2)
                             ->label('Catatan (Opsional)')
@@ -428,8 +440,8 @@ class CreateFromTemplate extends CreateRecord
         // Set jenis surat
         $data['jenis'] = 'keluar';
         
-        // Set status default
-        $data['status'] = 'draft';
+        // Status tetap sesuai pilihan user (default di form sudah draft)
+        $data['status'] = $data['status'] ?? 'draft';
         
         // Get template
         $template = TemplateSurat::find($data['template_surat_id'] ?? null);

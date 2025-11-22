@@ -107,12 +107,12 @@ class ViewArsipSurat extends ViewRecord
                             ->badge()
                             ->color(fn (string $state): string => match ($state) {
                                 'draft' => 'gray',
-                                'terkirim' => 'success',
-                                'diarsipkan' => 'info',
-                                'selesai' => 'success',
+                                'belum_lengkap' => 'warning',
+                                'menunggu_ttd' => 'info',
+                                'siap_dicetak' => 'success',
                                 default => 'gray',
                             })
-                            ->formatStateUsing(fn (string $state): string => ucfirst($state)),
+                            ->formatStateUsing(fn (string $state): string => str_replace('_', ' ', ucfirst($state))),
                     ])
                     ->columns(2),
                 

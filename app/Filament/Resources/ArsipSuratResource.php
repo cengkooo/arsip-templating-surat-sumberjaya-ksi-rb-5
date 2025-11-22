@@ -99,9 +99,9 @@ class ArsipSuratResource extends Resource
                         Forms\Components\Select::make('status')
                             ->options([
                                 'draft' => 'Draft',
-                                'terkirim' => 'Terkirim',
-                                'diarsipkan' => 'Diarsipkan',
-                                'selesai' => 'Selesai',
+                                'belum_lengkap' => 'Belum Lengkap',
+                                'menunggu_ttd' => 'Menunggu Tanda Tangan',
+                                'siap_dicetak' => 'Siap Dicetak',
                             ])
                             ->required()
                             ->native(false)
@@ -112,6 +112,18 @@ class ArsipSuratResource extends Resource
                             ->label('Catatan'),
                     ])
                     ->columns(2),
+
+                Forms\Components\Section::make('Data Isian')
+                    ->description('Edit nilai variabel surat')
+                    ->schema([
+                        Forms\Components\KeyValue::make('data_variables')
+                            ->keyLabel('Variable')
+                            ->valueLabel('Nilai')
+                            ->addButtonLabel('Tambah isian')
+                            ->reorderable()
+                            ->columnSpanFull(),
+                    ])
+                    ->collapsible(),
                 
                 Forms\Components\Section::make('Upload File')
                     ->schema([
@@ -163,16 +175,16 @@ class ArsipSuratResource extends Resource
                     })
                     ->formatStateUsing(fn (string $state): string => ucfirst($state)),
                 
-                Tables\Columns\TextColumn::make('status')
-                    ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'draft' => 'gray',
-                        'terkirim' => 'success',
-                        'diarsipkan' => 'info',
-                        'selesai' => 'success',
-                        default => 'gray',
-                    })
-                    ->formatStateUsing(fn (string $state): string => ucfirst($state)),
+                Tables\Columns\SelectColumn::make('status')
+                    ->options([
+                        'draft' => 'Draft',
+                        'belum_lengkap' => 'Belum Lengkap',
+                        'menunggu_ttd' => 'Menunggu Tanda Tangan',
+                        'siap_dicetak' => 'Siap Dicetak',
+                    ])
+                    ->selectablePlaceholder(false)
+                    ->rules(['required'])
+                    ->label('Status'),
                 
                 Tables\Columns\TextColumn::make('pengirim')
                     ->searchable()
@@ -199,9 +211,9 @@ class ArsipSuratResource extends Resource
                 SelectFilter::make('status')
                     ->options([
                         'draft' => 'Draft',
-                        'terkirim' => 'Terkirim',
-                        'diarsipkan' => 'Diarsipkan',
-                        'selesai' => 'Selesai',
+                        'belum_lengkap' => 'Belum Lengkap',
+                        'menunggu_ttd' => 'Menunggu Tanda Tangan',
+                        'siap_dicetak' => 'Siap Dicetak',
                     ]),
                 
                 Tables\Filters\Filter::make('tanggal_surat')

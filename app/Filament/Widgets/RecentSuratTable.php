@@ -42,9 +42,10 @@ class RecentSuratTable extends BaseWidget
                 Tables\Columns\BadgeColumn::make('status')
                     ->label('Status')
                     ->colors([
-                        'warning' => 'draft',
-                        'success' => 'selesai',
-                        'danger' => 'dibatalkan',
+                        'gray' => 'draft',
+                        'warning' => 'belum_lengkap',
+                        'info' => 'menunggu_ttd',
+                        'success' => 'siap_dicetak',
                     ]),
                 
                 Tables\Columns\TextColumn::make('user.name')
